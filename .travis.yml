@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t jimmyayo/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run jimmyayo/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t jimmyayo/fib-client ./client
+  - docker build -t jimmyayo/fib-nginx ./nginx
+  - docker build -t jimmyayo/fib-server ./server
+  - docker build -t jimmyayo/fib-worker ./worker
+  #Log into docker CLI (credentials stored on Travis as env variables)
+  - echo "$DOCKER_PW" | docker login -u "$DOCKER_ID" --password-stdin
+  #Take these images and push to Docker hub
+  - docker push jimmyayo/fib-client
+  - docker push jimmyayo/fib-nginx
+  - docker push jimmyayo/fib-server
+  - docker push jimmyayo/fib-worker
