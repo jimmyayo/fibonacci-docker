@@ -25,7 +25,7 @@
     {
       "name": "nginx",
       "image": "jimboyoo/fib-nginx",
-      "hostname": "jimboyoo/fib-nginx",
+      "hostname": "nginx",
       "essential": true,
       "portMappings": [
         {
