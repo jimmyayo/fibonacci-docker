@@ -20,3 +20,17 @@ after_success:
   - docker push jimboyoo/fib-nginx
   - docker push jimboyoo/fib-server
   - docker push jimboyoo/fib-worker
+  
+#Finally deplloy to AWS 
+deploy:
+  edge: true
+  provider: elasticbeanstalk
+  region: us-east-2
+  app: FibDocker
+  env: Fibdocker-env
+  bucket_name: elasticbeanstalk-us-east-2-194108261858
+  bucket_path: docker_fib
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
